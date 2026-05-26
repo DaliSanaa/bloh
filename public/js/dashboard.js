@@ -107,6 +107,16 @@ async function loadKeys() {
   const data = await res.json();
   const tbody = document.getElementById('keys-body');
 
+  const activeKeys = data.keys.filter((k) => k.isActive);
+  const onboarding = document.getElementById('onboarding-section');
+  if (onboarding) {
+    if (activeKeys.length === 0) {
+      onboarding.classList.remove('hidden');
+    } else {
+      onboarding.classList.add('hidden');
+    }
+  }
+
   tbody.innerHTML = data.keys.map((key) =>
     `<tr>
       <td><code>${key.keyPrefix}…</code></td>

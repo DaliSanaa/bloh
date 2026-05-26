@@ -24,6 +24,20 @@
 
   <main class="dashboard-main">
     <div class="dashboard-container">
+      <section id="onboarding-section" class="dashboard-section hidden">
+        <span class="section-label">Getting started</span>
+        <h2>Welcome to Bloh</h2>
+        <div class="dashboard-card">
+          <p id="onboarding-text">Generate your first API key below, then send a request to start extracting data from documents.</p>
+          <ol id="onboarding-steps">
+            <li><strong>Generate a key</strong> &mdash; click "Generate new key" in the API Keys section below.</li>
+            <li><strong>Copy the key</strong> &mdash; it is shown only once.</li>
+            <li><strong>Send a request</strong> &mdash; <code>curl -X POST https://api.bloh.dev/extract -H "x-api-key: YOUR_KEY" -F "file=@document.pdf"</code></li>
+          </ol>
+          <p><a href="/docs" class="btn btn-primary">Read the full documentation</a></p>
+        </div>
+      </section>
+
       <section class="dashboard-section">
         <span class="section-label">Subscription</span>
         <h2>Plan &amp; Usage</h2>

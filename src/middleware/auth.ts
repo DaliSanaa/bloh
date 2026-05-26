@@ -92,9 +92,11 @@ function isPublicRoute(url: string, method: string): boolean {
       pathOnly === '/login.html' ||
       pathOnly === '/signup.html' ||
       pathOnly === '/dashboard.html' ||
+      pathOnly === '/docs.html' ||
       pathOnly === '/login' ||
       pathOnly === '/signup' ||
       pathOnly === '/dashboard' ||
+      pathOnly === '/docs' ||
       PUBLIC_PATH_PREFIXES.some((p) => pathOnly.startsWith(p)))
   ) {
     return true;

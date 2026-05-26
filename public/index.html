@@ -18,7 +18,7 @@
       </a>
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#playground">Playground</a>
-        <a href="#docs">Docs</a>
+        <a href="/docs">Docs</a>
         <a href="#pricing">Pricing</a>
         <span id="auth-nav" class="auth-nav"></span>
       </nav>
@@ -35,7 +35,7 @@
         <p class="hero-subtitle">No templates. No training. No setup. Documents processed in memory and discarded — zero retention.</p>
         <div class="btn-group">
           <a href="#playground" class="btn btn-primary" data-scroll>Try it now</a>
-          <a href="#docs" class="btn" data-scroll>Read the docs</a>
+          <a href="/docs" class="btn">Read the docs</a>
         </div>
       </div>
     </section>
@@ -277,8 +277,8 @@
               <tr class="pricing-cta-row">
                 <th scope="row"></th>
                 <td><a href="#playground" class="btn btn-primary" data-scroll>Start extracting</a></td>
-                <td><a href="#docs" class="btn" data-scroll>Get API key</a></td>
-                <td><a href="#docs" class="btn" data-scroll>Get API key</a></td>
+                <td><a href="/dashboard" class="btn">Get API key</a></td>
+                <td><a href="/dashboard" class="btn">Get API key</a></td>
               </tr>
             </tbody>
           </table>
@@ -300,7 +300,7 @@
           <ul>
             <li><code>file</code> (required): Your document</li>
             <li><code>document_type</code> (optional): "invoice" | "receipt" | "contract" | "id_document" | "bank_statement" | "auto"</li>
-            <li><code>schema</code> (optional): JSON string with custom fields</li>
+            <li><code>schema</code> (optional): JSON string with custom fields — <a href="/docs#custom-schemas">see format</a></li>
           </ul>
         </div>
 
@@ -323,30 +323,38 @@
   -F "document_type=invoice"</code></pre>
             </div>
             <div id="panel-python" class="tab-panel">
-              <pre><code>import requests
+              <pre><code># pip install requests
+import requests
 
-response = requests.post(
-    "https://api.bloh.dev/extract",
-    headers={"x-api-key": "bloh_your_api_key"},
-    files={"file": open("invoice.pdf", "rb")},
-    data={"document_type": "invoice"}
-)
+with open("invoice.pdf", "rb") as f:
+    response = requests.post(
+        "https://api.bloh.dev/extract",
+        headers={"x-api-key": "bloh_your_api_key"},
+        files={"file": f},
+        data={"document_type": "invoice"},
+    )
+
 print(response.json())</code></pre>
             </div>
             <div id="panel-node" class="tab-panel">
-              <pre><code>const form = new FormData();
-form.append("file", fs.createReadStream("invoice.pdf"));
+              <pre><code>import fs from "node:fs";
+
+const form = new FormData();
+form.append("file", new Blob([fs.readFileSync("invoice.pdf")]));
 form.append("document_type", "invoice");
 
 const res = await fetch("https://api.bloh.dev/extract", {
   method: "POST",
   headers: { "x-api-key": "bloh_your_api_key" },
-  body: form
+  body: form,
 });
+
 console.log(await res.json());</code></pre>
             </div>
           </div>
         </div>
+
+        <p><a href="/docs" class="btn">Full documentation &mdash; error codes, rate limits, response schemas, and more</a></p>
       </div>
     </section>
 
@@ -378,7 +386,7 @@ console.log(await res.json());</code></pre>
     <div class="container footer-inner">
       <p class="footer-tagline">Bloh — Document extraction as infrastructure.</p>
       <nav class="footer-links" aria-label="Footer navigation">
-        <a href="#docs">API Docs</a>
+        <a href="/docs">API Docs</a>
         <a href="https://github.com" rel="noopener noreferrer">GitHub</a>
         <a href="mailto:hello@bloh.dev">Contact</a>
       </nav>

@@ -161,6 +161,10 @@ export async function registerUiRoutes(
     return reply.sendFile('signup.html');
   });
 
+  app.get('/docs', async (_request: FastifyRequest, reply: FastifyReply) => {
+    return reply.sendFile('docs.html');
+  });
+
   app.post(
     '/playground/estimate',
     async (request: FastifyRequest, reply: FastifyReply) => {
