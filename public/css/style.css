@@ -644,6 +644,62 @@ section + section {
   font-size: 12px;
 }
 
+/* Docs nav */
+.docs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  list-style: none;
+  padding: 16px 0;
+  border-bottom: var(--border-soft);
+  margin-bottom: 0;
+}
+
+.docs-nav a {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.docs-nav a:hover {
+  color: var(--accent);
+}
+
+/* Docs page flow spacing */
+.docs-body .container > h3 {
+  margin-top: 32px;
+}
+
+.docs-body .container > p + p {
+  margin-top: 12px;
+}
+
+.docs-body .container > .code-snippet {
+  margin-top: 16px;
+}
+
+.docs-body .container > .pricing-table-wrapper {
+  margin-top: 16px;
+}
+
+.docs-body .container > .tabs {
+  margin-top: 16px;
+}
+
+.docs-body .container > .step {
+  margin-top: 24px;
+}
+
+.docs-body .container > ul {
+  margin-top: 12px;
+  padding-left: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.docs-body .container > ul li + li {
+  margin-top: 4px;
+}
+
 /* API Docs */
 .docs-endpoint {
   background: var(--code-bg);

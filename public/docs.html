@@ -25,7 +25,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="docs-body">
     <section class="hero" aria-labelledby="docs-hero-title">
       <div class="container">
         <span class="section-label">Reference</span>
@@ -74,24 +74,24 @@
         </div>
 
         <div class="tabs">
-          <input type="radio" name="qs-tab" id="qs-tab-curl" class="tab-input" checked>
-          <input type="radio" name="qs-tab" id="qs-tab-python" class="tab-input">
-          <input type="radio" name="qs-tab" id="qs-tab-node" class="tab-input">
+          <input type="radio" name="code-tab" id="tab-curl" class="tab-input" checked>
+          <input type="radio" name="code-tab" id="tab-python" class="tab-input">
+          <input type="radio" name="code-tab" id="tab-node" class="tab-input">
 
           <div class="tab-labels">
-            <label for="qs-tab-curl" class="tab-label">cURL</label>
-            <label for="qs-tab-python" class="tab-label">Python</label>
-            <label for="qs-tab-node" class="tab-label">Node.js</label>
+            <label for="tab-curl" class="tab-label">cURL</label>
+            <label for="tab-python" class="tab-label">Python</label>
+            <label for="tab-node" class="tab-label">Node.js</label>
           </div>
 
           <div class="tab-panels">
-            <div class="tab-panel">
+            <div id="panel-curl" class="tab-panel">
               <pre><code>curl -X POST https://api.bloh.dev/extract \
   -H "x-api-key: bloh_your_api_key" \
   -F "file=@invoice.pdf" \
   -F "document_type=invoice"</code></pre>
             </div>
-            <div class="tab-panel">
+            <div id="panel-python" class="tab-panel">
               <pre><code># pip install requests
 import requests
 
@@ -105,7 +105,7 @@ with open("invoice.pdf", "rb") as f:
 
 print(response.json())</code></pre>
             </div>
-            <div class="tab-panel">
+            <div id="panel-node" class="tab-panel">
               <pre><code>import fs from "node:fs";
 
 const form = new FormData();
@@ -123,13 +123,11 @@ console.log(await res.json());</code></pre>
           </div>
         </div>
 
-        <div class="steps">
-          <article class="step">
-            <p class="step-number">Step 4</p>
-            <h3>Parse the response</h3>
-            <p>A successful extraction returns JSON with the extracted fields, document type, and confidence level:</p>
-          </article>
-        </div>
+        <article class="step">
+          <p class="step-number">Step 4</p>
+          <h3>Parse the response</h3>
+          <p>A successful extraction returns JSON with the extracted fields, document type, and confidence level:</p>
+        </article>
 
         <pre class="code-snippet">{
   "success": true,
@@ -148,13 +146,11 @@ console.log(await res.json());</code></pre>
   "processing_time_ms": 1340
 }</pre>
 
-        <div class="steps">
-          <article class="step">
-            <p class="step-number">Step 5</p>
-            <h3>Estimate before extracting (optional)</h3>
-            <p>Use <a href="#estimate">POST /estimate</a> to check how many credits a document will cost before committing to extraction.</p>
-          </article>
-        </div>
+        <article class="step">
+          <p class="step-number">Step 5</p>
+          <h3>Estimate before extracting (optional)</h3>
+          <p>Use <a href="#estimate">POST /estimate</a> to check how many credits a document will cost before committing to extraction.</p>
+        </article>
       </div>
     </section>
 
@@ -376,9 +372,9 @@ console.log(await res.json());</code></pre>
         </div>
 
         <h3>Example</h3>
-        <pre><code>curl -X POST https://api.bloh.dev/estimate \
+        <pre class="code-snippet">curl -X POST https://api.bloh.dev/estimate \
   -H "x-api-key: bloh_your_api_key" \
-  -F "file=@contract.pdf"</code></pre>
+  -F "file=@contract.pdf"</pre>
       </div>
     </section>
 
@@ -403,10 +399,10 @@ console.log(await res.json());</code></pre>
         </ul>
 
         <h3>Example request</h3>
-        <pre><code>curl -X POST https://api.bloh.dev/extract \
+        <pre class="code-snippet">curl -X POST https://api.bloh.dev/extract \
   -H "x-api-key: bloh_your_api_key" \
   -F "file=@invoice.pdf" \
-  -F 'schema={"fields":["vendor_name","total_amount","currency"]}'</code></pre>
+  -F 'schema={"fields":["vendor_name","total_amount","currency"]}'</pre>
 
         <h3>Example response</h3>
         <pre class="code-snippet">{
