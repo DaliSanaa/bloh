@@ -1,0 +1,3 @@
+bloh.dev, api.bloh.dev {
+    reverse_proxy bloh-api:3001
+}

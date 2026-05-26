@@ -4,11 +4,27 @@ services:
     container_name: bloh-api
     env_file:
       - .env
-    ports:
-      - "${PORT:-3000}:${PORT:-3000}"
+    expose:
+      - "3001"
     volumes:
       - bloh-data:/app/data
     restart: unless-stopped
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: bloh-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - bloh-api
+
 volumes:
   bloh-data:
+  caddy-data:
+  caddy-config:
