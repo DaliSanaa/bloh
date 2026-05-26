@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Bloh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header dashboard-header">
+    <div class="container header-inner">
+      <a href="/" class="logo-link" aria-label="Bloh home">
+        <span class="logo-wordmark">Bloh</span>
+      </a>
+      <div class="dashboard-header-right">
+        <span id="user-email" class="dashboard-email"></span>
+        <button type="button" id="logout-btn" class="btn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="dashboard-container">
+      <section class="dashboard-section">
+        <span class="section-label">Subscription</span>
+        <h2>Plan &amp; Usage</h2>
+        <div class="dashboard-card">
+          <div class="plan-row">
+            <span id="plan-badge" class="plan-badge">FREE</span>
+            <div class="plan-actions">
+              <button type="button" id="upgrade-pro-btn" class="btn btn-primary hidden">Upgrade to Pro</button>
+              <button type="button" id="upgrade-max-btn" class="btn hidden">Upgrade to Max</button>
+              <button type="button" id="billing-portal-btn" class="btn hidden">Manage billing</button>
+            </div>
+          </div>
+          <p id="credit-balance" class="credit-balance">— credits remaining</p>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+          <p id="credit-detail" class="credit-detail"></p>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <span class="section-label">Credentials</span>
+        <h2>API Keys</h2>
+        <div class="dashboard-card">
+          <div class="table-wrapper">
+            <table class="dashboard-table" id="keys-table">
+              <thead>
+                <tr>
+                  <th>Prefix</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="keys-body"></tbody>
+            </table>
+          </div>
+          <button type="button" id="generate-key-btn" class="btn btn-primary">Generate new key</button>
+          <div id="key-reveal" class="key-reveal hidden">
+            <p class="key-reveal-warning">Copy this key now. It will not be shown again.</p>
+            <pre id="revealed-key" class="key-reveal-box"></pre>
+            <button type="button" id="copy-revealed-key" class="btn">Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <span class="section-label">Analytics</span>
+        <h2>Usage History</h2>
+        <div class="dashboard-card">
+          <div id="usage-chart" class="usage-chart"></div>
+          <div class="table-wrapper">
+            <table class="dashboard-table" id="history-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Credits used</th>
+                </tr>
+              </thead>
+              <tbody id="history-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/js/dashboard.js" defer></script>
+</body>
+</html>

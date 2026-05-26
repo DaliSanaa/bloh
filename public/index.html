@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bloh — Send any document. Get structured data back. Stateless document extraction API with zero retention.">
+  <title>Bloh — Document Extraction API</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo-link" aria-label="Bloh home">
+        <span class="logo-wordmark">Bloh</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#playground">Playground</a>
+        <a href="#docs">Docs</a>
+        <a href="#pricing">Pricing</a>
+        <span id="auth-nav" class="auth-nav"></span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <span class="section-label">Document extraction API</span>
+        <h1 id="hero-title">Bloh</h1>
+        <p>Send any document. Get structured data back.</p>
+        <p class="hero-subtitle">No templates. No training. No setup. Documents processed in memory and discarded — zero retention.</p>
+        <div class="btn-group">
+          <a href="#playground" class="btn btn-primary" data-scroll>Try it now</a>
+          <a href="#docs" class="btn" data-scroll>Read the docs</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Playground -->
+    <section id="playground" class="playground" aria-labelledby="playground-title">
+      <div class="container">
+        <span class="section-label">Live demo</span>
+        <h2 id="playground-title">Playground</h2>
+        <p style="color: var(--muted); font-size: 13px; margin-bottom: 24px;">Upload a document and extract structured data instantly. First 3 extractions free — no API key required.</p>
+
+        <div class="playground-card">
+          <div id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-label="Upload document">
+            <p class="drop-zone-text">
+              <strong>Drop your document here</strong>
+              or click to browse
+            </p>
+            <p class="file-types">PDF, JPG, PNG, DOCX, XLSX, PPTX — max 20MB</p>
+          </div>
+          <input type="file" id="file-input" class="sr-only" accept=".pdf,.jpg,.jpeg,.png,.webp,.tiff,.docx,.xlsx,.pptx">
+
+          <p id="file-info" class="file-info" aria-live="polite"></p>
+
+          <div class="playground-controls">
+            <label for="document-type">Document type</label>
+            <select id="document-type" aria-label="Document type">
+              <option value="auto">Auto-detect</option>
+              <option value="invoice">Invoice</option>
+              <option value="receipt">Receipt</option>
+              <option value="contract">Contract</option>
+              <option value="id_document">ID Document</option>
+              <option value="bank_statement">Bank Statement</option>
+            </select>
+            <button type="button" id="extract-btn" class="btn btn-primary extract-btn" disabled>Extract</button>
+          </div>
+
+          <div id="error-banner" class="error-banner" role="alert"></div>
+
+          <div id="results-panel" class="results-panel">
+            <div class="results-grid">
+              <dl class="results-meta">
+                <dt>File</dt>
+                <dd id="meta-filename">—</dd>
+                <dt>Document type</dt>
+                <dd id="meta-type">—</dd>
+                <dt>Confidence</dt>
+                <dd id="meta-confidence">—</dd>
+                <dt>Processing time</dt>
+                <dd id="meta-time">—</dd>
+              </dl>
+              <div>
+                <pre id="json-output" class="json-output" aria-label="Extraction result"></pre>
+              </div>
+            </div>
+            <div class="results-actions">
+              <button type="button" id="copy-btn" class="btn">Copy JSON</button>
+              <button type="button" id="download-json-btn" class="btn">Download JSON</button>
+              <button type="button" id="download-csv-btn" class="btn">Download CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how-it-works" aria-labelledby="how-title">
+      <div class="container">
+        <span class="section-label">Process</span>
+        <h2 id="how-title">How it works</h2>
+        <div class="steps">
+          <article class="step">
+            <svg class="step-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <rect x="8" y="6" width="20" height="26" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M14 14 H22 M14 18 H22 M14 22 H18" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M28 20 L34 20 L34 32 L28 32 Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M30 24 L32 26 L30 28" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <p class="step-number">Step 1</p>
+            <h3>Upload</h3>
+            <p>Send any PDF, image, or Office file via API or this playground.</p>
+          </article>
+          <article class="step">
+            <svg class="step-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <circle cx="18" cy="18" r="10" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M26 26 L34 34" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M14 16 L18 20 L24 14" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <p class="step-number">Step 2</p>
+            <h3>Extract</h3>
+            <p>Bloh reads the spatial layout and extracts every field with AI.</p>
+          </article>
+          <article class="step">
+            <svg class="step-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <path d="M10 12 L16 8 L22 12 L22 28 L16 32 L10 28 Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M14 16 L18 16 M14 20 L20 20 M14 24 L17 24" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <p class="step-number">Step 3</p>
+            <h3>Receive</h3>
+            <p>Get clean, structured JSON back. Every time.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use cases -->
+    <section id="use-cases" aria-labelledby="usecases-title">
+      <div class="container">
+        <span class="section-label">Applications</span>
+        <h2 id="usecases-title">Use cases</h2>
+        <div class="cards-grid">
+          <article class="card">
+            <svg class="card-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="4" y="4" width="24" height="24" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M8 12 H24 M8 16 H20 M8 20 H16" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <h3>Invoices &amp; Receipts</h3>
+            <p>Vendor, line items, totals, VAT, IBAN — from any layout, any language.</p>
+            <pre class="code-snippet">{
+  "vendor_name": "Müller GmbH",
+  "invoice_number": "2026-0847",
+  "gross_amount": 1992.66,
+  "currency": "EUR"
+}</pre>
+          </article>
+          <article class="card">
+            <svg class="card-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M6 26 L6 10 L16 6 L26 10 L26 26" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 26 L12 18 L20 18 L20 26" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <h3>Contracts &amp; Agreements</h3>
+            <p>Parties, dates, clauses, obligations, governing law — no template needed.</p>
+            <pre class="code-snippet">{
+  "contract_title": "Service Agreement",
+  "effective_date": "2026-01-15",
+  "governing_law": "Germany",
+  "total_value": 48000
+}</pre>
+          </article>
+          <article class="card">
+            <svg class="card-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="6" y="8" width="20" height="16" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <h3>ID Documents</h3>
+            <p>Name, DOB, document number, expiry, nationality — passports, licenses, IDs.</p>
+            <pre class="code-snippet">{
+  "full_name": "Anna Schmidt",
+  "document_number": "L01X00T47",
+  "date_of_birth": "1990-03-12",
+  "expiry_date": "2031-03-11"
+}</pre>
+          </article>
+          <article class="card">
+            <svg class="card-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="4" y="6" width="24" height="20" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M4 12 H28 M4 18 H28 M4 24 H28" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <h3>Bank Statements</h3>
+            <p>Account holder, transactions, balances, dates — any bank, any format.</p>
+            <pre class="code-snippet">{
+  "account_holder": "Anna Schmidt",
+  "opening_balance": 4200.00,
+  "closing_balance": 3850.50,
+  "currency": "EUR"
+}</pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Bloh -->
+    <section id="why-buteo" aria-labelledby="why-title">
+      <div class="container">
+        <span class="section-label">Differentiators</span>
+        <h2 id="why-title">Why Bloh</h2>
+        <div class="columns-3">
+          <article class="column-block">
+            <h3>Zero retention</h3>
+            <p>Your documents are processed in memory and discarded. Nothing is stored. Ever.</p>
+          </article>
+          <article class="column-block">
+            <h3>No templates</h3>
+            <p>Works on any document layout without training or configuration. Upload and extract.</p>
+          </article>
+          <article class="column-block">
+            <h3>EU infrastructure</h3>
+            <p>Hosted in Europe. No data leaves EU servers. GDPR by architecture, not by policy.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <span class="section-label">Plans</span>
+        <h2 id="pricing-title">Pricing</h2>
+        <div class="pricing-table-wrapper">
+          <table class="pricing-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Free</th>
+                <th scope="col">Pro</th>
+                <th scope="col">Max</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Pages/month</th>
+                <td>100</td>
+                <td>2,000</td>
+                <td>20,000</td>
+              </tr>
+              <tr>
+                <th scope="row">API access</th>
+                <td>Playground only</td>
+                <td>Yes</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <th scope="row">Custom schemas</th>
+                <td>No</td>
+                <td>Yes</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <th scope="row">Support</th>
+                <td>Community</td>
+                <td>Email</td>
+                <td>Priority</td>
+              </tr>
+              <tr>
+                <th scope="row">Price</th>
+                <td class="price">€0</td>
+                <td class="price">€19/mo</td>
+                <td class="price">€79/mo</td>
+              </tr>
+              <tr class="pricing-cta-row">
+                <th scope="row"></th>
+                <td><a href="#playground" class="btn btn-primary" data-scroll>Start extracting</a></td>
+                <td><a href="#docs" class="btn" data-scroll>Get API key</a></td>
+                <td><a href="#docs" class="btn" data-scroll>Get API key</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- API Docs -->
+    <section id="docs" aria-labelledby="docs-title">
+      <div class="container">
+        <span class="section-label">Reference</span>
+        <h2 id="docs-title">API documentation</h2>
+
+        <div class="docs-endpoint">
+          <p><strong>Endpoint:</strong> <code>POST /extract</code></p>
+          <p><strong>Headers:</strong> <code>x-api-key: bloh_your_api_key</code></p>
+          <p><strong>Content-Type:</strong> <code>multipart/form-data</code></p>
+          <p><strong>Body:</strong></p>
+          <ul>
+            <li><code>file</code> (required): Your document</li>
+            <li><code>document_type</code> (optional): "invoice" | "receipt" | "contract" | "id_document" | "bank_statement" | "auto"</li>
+            <li><code>schema</code> (optional): JSON string with custom fields</li>
+          </ul>
+        </div>
+
+        <div class="tabs">
+          <input type="radio" name="code-tab" id="tab-curl" class="tab-input" checked>
+          <input type="radio" name="code-tab" id="tab-python" class="tab-input">
+          <input type="radio" name="code-tab" id="tab-node" class="tab-input">
+
+          <div class="tab-labels">
+            <label for="tab-curl" class="tab-label">cURL</label>
+            <label for="tab-python" class="tab-label">Python</label>
+            <label for="tab-node" class="tab-label">Node.js</label>
+          </div>
+
+          <div class="tab-panels">
+            <div id="panel-curl" class="tab-panel">
+              <pre><code>curl -X POST https://api.bloh.dev/extract \
+  -H "x-api-key: bloh_your_api_key" \
+  -F "file=@invoice.pdf" \
+  -F "document_type=invoice"</code></pre>
+            </div>
+            <div id="panel-python" class="tab-panel">
+              <pre><code>import requests
+
+response = requests.post(
+    "https://api.bloh.dev/extract",
+    headers={"x-api-key": "bloh_your_api_key"},
+    files={"file": open("invoice.pdf", "rb")},
+    data={"document_type": "invoice"}
+)
+print(response.json())</code></pre>
+            </div>
+            <div id="panel-node" class="tab-panel">
+              <pre><code>const form = new FormData();
+form.append("file", fs.createReadStream("invoice.pdf"));
+form.append("document_type", "invoice");
+
+const res = await fetch("https://api.bloh.dev/extract", {
+  method: "POST",
+  headers: { "x-api-key": "bloh_your_api_key" },
+  body: form
+});
+console.log(await res.json());</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Integrations -->
+    <section id="integrations" aria-labelledby="integrations-title">
+      <div class="container">
+        <span class="section-label">Workflows</span>
+        <h2 id="integrations-title">Integrations</h2>
+        <div class="integrations-row">
+          <article class="integration-card">
+            <p class="integration-name">Zapier</p>
+            <p class="integration-status">Coming soon</p>
+          </article>
+          <article class="integration-card">
+            <p class="integration-name">Make.com</p>
+            <p class="integration-status">Coming soon</p>
+          </article>
+          <article class="integration-card">
+            <p class="integration-name">n8n</p>
+            <p class="integration-status">Coming soon</p>
+          </article>
+        </div>
+        <p class="integrations-desc">Bloh works as a step in your automation workflows. Extract document data and send it anywhere.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-tagline">Bloh — Document extraction as infrastructure.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#docs">API Docs</a>
+        <a href="https://github.com" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:hello@bloh.dev">Contact</a>
+      </nav>
+      <p class="footer-note">Built in the EU. Zero document retention.</p>
+    </div>
+  </footer>
+
+  <script src="/js/auth-nav.js" defer></script>
+  <script src="/js/app.js" defer></script>
+</body>
+</html>

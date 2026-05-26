@@ -1,0 +1,14 @@
+services:
+  bloh-api:
+    build: .
+    container_name: bloh-api
+    env_file:
+      - .env
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    volumes:
+      - bloh-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  bloh-data:

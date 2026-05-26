@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in — Bloh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="auth-page">
+    <div class="auth-card auth-card-wide">
+      <a href="/" class="logo-link auth-logo" aria-label="Bloh home">
+        <span class="logo-wordmark">Bloh</span>
+      </a>
+      <h1>Log in</h1>
+      <p class="auth-hint auth-clerk-hint">Sign in with Google, Microsoft, GitHub, Apple, and more.</p>
+      <div id="clerk-root" class="clerk-root"></div>
+      <p id="auth-error" class="auth-error" role="alert"></p>
+      <p class="auth-switch">Don't have an account? <a href="/signup">Sign up</a></p>
+    </div>
+  </main>
+  <script src="/js/clerk-auth.js" data-mode="sign-in"></script>
+</body>
+</html>

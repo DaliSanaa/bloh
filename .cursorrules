@@ -1,0 +1,100 @@
+# Bloh — Cursor Rules
+
+## Identity
+
+This project is **Bloh** (bloh.dev), a stateless document extraction API. Every design decision serves one principle: a document goes in, structured JSON comes out, nothing is stored.
+
+## Language and Runtime
+
+- TypeScript in strict mode. No implicit any. No ts-ignore. No ts-expect-error.
+- Node.js 20+. ESM modules only (type: "module" in package.json).
+- Target: ES2022.
+
+## Code Style
+
+### Functions
+- Every function must have a JSDoc comment with a one-line description of what it does and @param / @returns annotations.
+- Every function must declare an explicit return type. Never rely on inference for exported functions.
+- Maximum function length: 40 lines. If longer, decompose.
+- Pure functions preferred. Side effects (I/O, logging) isolated to service boundaries.
+- No default exports. Named exports only.
+
+### Naming
+- Files: kebab-case (e.g., `extract.ts`, `api-key.ts`)
+- Functions and variables: camelCase
+- Types, interfaces, enums: PascalCase
+- Constants: UPPER_SNAKE_CASE
+- Boolean variables prefixed with is/has/should/can (e.g., `isValid`, `hasFile`)
+
+### Error Handling
+- Never throw raw Error objects. Use custom typed error classes that extend a base BlohError.
+- Every catch block must log the error with context before re-throwing or returning.
+- Never swallow errors silently. An empty catch block is a bug.
+- All async functions must have try/catch or be wrapped by a caller that does.
+- External API calls (LLM, LiteParse) must have explicit timeouts (30s default).
+
+### Security
+- Never log full API keys. Log only the first 8 characters as a prefix.
+- Never log document content or PII. Log only metadata: file size, mime type, page count.
+- Never write uploaded files to disk permanently. If temporary disk is required (LiteParse), wrap in try/finally and delete in finally.
+- Validate and sanitize all user input at the route level using Fastify schemas.
+- Set file upload size limit at the server level (default 20MB).
+
+### Memory and Statefulness
+- This is a stateless service. No request data persists after the response is sent.
+- Explicitly dereference large buffers after processing (set to null/undefined to allow GC).
+- No in-memory caches that grow unboundedly. Rate limit maps must have TTL-based cleanup.
+- No global mutable state except the rate limit map (with periodic cleanup).
+
+### Logging
+- Use Fastify's built-in pino logger. No console.log, console.warn, console.error.
+- Every request must log: method, path, status_code, processing_time_ms, api_key_prefix.
+- Every external call (LLM, parser) must log: duration_ms, success/failure, error message if failed.
+- Log levels: error (failures), warn (retries, fallbacks), info (request lifecycle), debug (development detail).
+
+### Dependencies
+- Minimize dependencies. Every npm package must justify its presence.
+- No utility libraries (lodash, underscore, ramda). Use native JS/TS.
+- Pin exact versions in package.json (no ^ or ~).
+
+### Testing
+- All services must be testable in isolation (dependency injection, no hard-coded imports of external clients).
+- Config must be injectable, not read from process.env at module level.
+
+## Architecture Rules
+
+### Request Lifecycle
+Every request follows this exact pipeline:
+1. Auth middleware validates API key
+2. Rate limiter checks request count
+3. Route handler validates input (file presence, size, type)
+4. Parser service extracts text from document (in memory)
+5. Token counter calculates input tokens and credit cost
+6. Extractor service sends text to LLM and parses JSON response
+7. Usage tracker records credits consumed
+8. Route handler returns structured response with credits_used
+9. All buffers are dereferenced
+
+No step may be skipped. No step may call a later step directly (no circular dependencies).
+
+### File Organization
+- routes/ — HTTP route handlers only. No business logic.
+- services/ — Business logic. No HTTP concepts (no request/reply objects).
+- middleware/ — Fastify hooks. Auth, rate limiting.
+- prompts/ — LLM prompt builders. Pure functions returning strings.
+- schemas/ — Fastify JSON schemas for request/response validation.
+- config/ — Environment variable loading and validation. Run once at startup.
+- utils/ — Pure utility functions (logger setup, error classes, token counting).
+- types/ — Shared TypeScript types and interfaces. No runtime code.
+
+### What Not To Do
+- Do not add a database or ORM until Prompt 3 explicitly introduces SQLite.
+- Do not add user registration or session management until Prompt 3.
+- Do not store documents, extraction results, or any request data.
+- Do not add WebSocket or streaming endpoints.
+- Do not add admin routes or dashboards.
+- Do not install Express. This project uses Fastify.
+- Do not add CORS without explicit instruction.
+- Do not generate frontend code until Prompt 2.
+- Do not add Swagger/OpenAPI generation unless explicitly asked.
+- Do not make architectural decisions not described in the prompt. If something is ambiguous, add a TODO comment and move on.
