@@ -20,10 +20,15 @@ function showError(message) {
 }
 
 /**
- * Returns the page auth mode from the bootstrap script tag.
+ * Returns the page auth mode from the document body or bootstrap script tag.
  * @returns {'sign-in' | 'sign-up'} Auth mode
  */
 function getAuthMode() {
+  const bodyMode = document.body?.dataset.clerkMode;
+  if (bodyMode === 'sign-up' || bodyMode === 'sign-in') {
+    return bodyMode;
+  }
+
   const script = document.querySelector('script[data-mode]');
   const mode = script?.dataset.mode;
   return mode === 'sign-up' ? 'sign-up' : 'sign-in';
@@ -99,7 +104,7 @@ async function initClerkAuth() {
   const errorCode = params.get('error');
 
   if (errorCode === 'auth_failed') {
-    showError('Sign in failed. Please try again.');
+    showError(mode === 'sign-up' ? 'Sign up failed. Please try again.' : 'Sign in failed. Please try again.');
   } else if (errorCode === 'auth_email') {
     showError('Your account needs a verified email address.');
   }
