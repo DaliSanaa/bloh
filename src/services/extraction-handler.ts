@@ -144,6 +144,11 @@ async function readMultipartForm(
   maxFileSizeBytes: number,
   maxFileSizeMb: number,
 ): Promise<ExtractFormData> {
+  const contentType = request.headers['content-type'] ?? '';
+  if (!contentType.includes('multipart/form-data')) {
+    throw missingFileError();
+  }
+
   let file: MultipartFile | undefined;
   let fileBuffer: Buffer | null = null;
   let schemaRaw: string | undefined;
