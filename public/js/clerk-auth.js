@@ -130,8 +130,8 @@ async function initClerkAuth() {
     await window.Clerk.load({
       ui: { ClerkUI: window.__internal_ClerkUICtor },
     });
-
-    if (window.Clerk.isSignedIn) {
+    const params = new URLSearchParams(window.location.search);
+    if (window.Clerk.isSignedIn && !params.has('logout')) {
       window.location.href = config.afterAuthUrl;
       return;
     }

@@ -33,12 +33,14 @@ export async function buildServer(): Promise<ReturnType<typeof Fastify>> {
 
   await app.register(helmet, {
     contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", 'data:'],
-        connectSrc: ["'self'", 'https://api.clerk.dev', 'https://*.clerk.accounts.dev'],
+	directives: {
+	 defaultSrc: ["'self'"],
+         scriptSrc: ["'self'", "'unsafe-inline'", 'https://clerk.bloh.dev'],
+         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://clerk.bloh.dev'],
+         fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+         imgSrc: ["'self'", 'data:', 'https://img.clerk.com'],
+         connectSrc: ["'self'", 'https://clerk.bloh.dev', 'https://api.clerk.com', 'https://api.clerk.dev', 'https://*.clerk.accounts.dev'],
+         frameSrc: ["'self'", 'https://clerk.bloh.dev'],
       },
     },
   });

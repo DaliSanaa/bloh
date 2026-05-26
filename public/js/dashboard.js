@@ -11,7 +11,7 @@ let currentUser = null;
 async function requireAuth() {
   const res = await fetch('/auth/me');
   if (!res.ok) {
-    window.location.href = '/login';
+    window.location.href = '/login?logout=1';
     return null;
   }
   const body = await res.json();
@@ -183,7 +183,7 @@ function clearClerkCookies() {
 async function signOut() {
   await fetch('/auth/logout', { method: 'POST' });
   clearClerkCookies();
-  window.location.href = '/login';
+  window.location.href = '/login?logout=1';
 }
 /**
  * Shows the one-time API key after Clerk signup.
