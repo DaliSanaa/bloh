@@ -39,9 +39,9 @@ function updatePlanUi(plan) {
 
   if (normalizedPlan === 'free') {
     proBtn.classList.remove('hidden');
+    maxBtn.classList.remove('hidden');
   } else if (normalizedPlan === 'pro') {
     maxBtn.classList.remove('hidden');
-    portalBtn.classList.remove('hidden');
   } else if (normalizedPlan === 'max') {
     portalBtn.classList.remove('hidden');
   }
