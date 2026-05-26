@@ -78,6 +78,8 @@ export interface AppConfig {
   clerkPublishableKey: string;
   clerkSecretKey: string;
   isProduction: boolean;
+  trustProxy: boolean;
+  corsOrigin: string[];
 }
 
 /** Groq chat completion response (subset used by extractor). */

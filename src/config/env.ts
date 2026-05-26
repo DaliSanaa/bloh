@@ -65,6 +65,11 @@ export function loadConfig(): AppConfig {
   const port = parseIntEnv('PORT', DEFAULT_PORT);
   const maxFileSizeMb = parseIntEnv('MAX_FILE_SIZE_MB', DEFAULT_MAX_FILE_SIZE_MB);
 
+  const corsOriginRaw = process.env.CORS_ORIGIN?.trim() || '';
+  const corsOrigin = corsOriginRaw.length > 0
+    ? corsOriginRaw.split(',').map((o) => o.trim()).filter((o) => o.length > 0)
+    : [];
+
   return {
     port,
     groqApiKey: requireEnv('GROQ_API_KEY'),
@@ -83,5 +88,7 @@ export function loadConfig(): AppConfig {
     clerkPublishableKey: requireEnv('CLERK_PUBLISHABLE_KEY'),
     clerkSecretKey: requireEnv('CLERK_SECRET_KEY'),
     isProduction: nodeEnv === 'production',
+    trustProxy: (process.env.TRUST_PROXY?.trim() || 'false') === 'true',
+    corsOrigin,
   };
 }

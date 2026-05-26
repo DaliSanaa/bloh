@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policymap [
+  <!ELEMENT policymap (policy)*>
+  <!ATTLIST policymap xmlns CDATA #FIXED "">
+  <!ELEMENT policy (#PCDATA)>
+  <!ATTLIST policy xmlns CDATA #FIXED "" domain NMTOKEN #REQUIRED
+    name NMTOKEN #IMPLIED pattern CDATA #IMPLIED rights NMTOKEN #IMPLIED
+    stealth NMTOKEN #IMPLIED value CDATA #IMPLIED>
+]>
+<policymap>
+  <policy domain="resource" name="memory" value="256MiB"/>
+  <policy domain="resource" name="map" value="256MiB"/>
+  <policy domain="resource" name="width" value="10000"/>
+  <policy domain="resource" name="height" value="10000"/>
+  <policy domain="resource" name="area" value="64MP"/>
+  <policy domain="resource" name="disk" value="0"/>
+  <policy domain="resource" name="time" value="30"/>
+
+  <policy domain="coder" rights="none" pattern="*"/>
+  <policy domain="coder" rights="read|write" pattern="PNG"/>
+  <policy domain="coder" rights="read" pattern="JPEG"/>
+  <policy domain="coder" rights="read" pattern="TIFF"/>
+  <policy domain="coder" rights="read" pattern="WEBP"/>
+
+  <policy domain="delegate" rights="none" pattern="*"/>
+
+  <policy domain="path" rights="none" pattern="@*"/>
+</policymap>

@@ -1,5 +1,6 @@
 import type { FastifyBaseLogger, FastifyReply, FastifyRequest } from 'fastify';
 import type { MultipartFile } from '@fastify/multipart';
+import { fileTypeFromBuffer } from 'file-type';
 import type { AppConfig } from '../types/index.js';
 import type {
   DocumentType,
@@ -29,6 +30,20 @@ import {
 import { logRequest } from '../utils/logger.js';
 
 const VALID_DOCUMENT_TYPES = new Set<string>(DOCUMENT_TYPE_VALUES);
+const MAX_SCHEMA_FIELDS = 50;
+const MAX_FIELD_NAME_LENGTH = 64;
+const FIELD_NAME_PATTERN = /^[a-zA-Z0-9_\s-]+$/;
+
+const MAGIC_BYTE_MIME_FAMILIES: Record<string, string[]> = {
+  'application/pdf': ['application/pdf'],
+  'image/jpeg': ['image/jpeg'],
+  'image/png': ['image/png'],
+  'image/webp': ['image/webp'],
+  'image/tiff': ['image/tiff'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['application/zip'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['application/zip'],
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['application/zip'],
+};
 
 /** Parsed multipart form fields from an extract request. */
 interface ExtractFormData {
@@ -80,7 +95,26 @@ function parseCustomSchema(raw: string | undefined): ExtractionSchema | undefine
     throw invalidSchemaError('All schema fields must be strings');
   }
 
-  return { fields };
+  if (fields.length > MAX_SCHEMA_FIELDS) {
+    throw invalidSchemaError(`Schema may contain at most ${MAX_SCHEMA_FIELDS} fields`);
+  }
+
+  const sanitized = fields.map((f) => {
+    const trimmed = f.trim();
+    if (trimmed.length > MAX_FIELD_NAME_LENGTH) {
+      throw invalidSchemaError(
+        `Field name "${trimmed.slice(0, 20)}..." exceeds the ${MAX_FIELD_NAME_LENGTH}-character limit`,
+      );
+    }
+    if (!FIELD_NAME_PATTERN.test(trimmed)) {
+      throw invalidSchemaError(
+        `Field name "${trimmed}" contains invalid characters. Use only letters, numbers, underscores, hyphens, and spaces`,
+      );
+    }
+    return trimmed;
+  });
+
+  return { fields: sanitized };
 }
 
 /**
@@ -150,17 +184,28 @@ async function readMultipartForm(
  * @param form - Parsed multipart form data
  * @returns MIME type and preprocessed buffer
  */
-function validateAndPreprocessFile(form: ExtractFormData): {
+async function validateAndPreprocessFile(form: ExtractFormData): Promise<{
   mimeType: string;
   preprocessed: Buffer;
   fileSizeBytes: number;
-} {
+}> {
   const extension = getFileExtension(form.file.filename);
   if (!extension || !isSupportedExtension(extension)) {
     throw unsupportedFileTypeError(extension || '(none)');
   }
 
   const mimeType = form.file.mimetype || extensionToMimeType(extension);
+
+  const detected = await fileTypeFromBuffer(form.fileBuffer);
+  if (detected) {
+    const allowedFamily = MAGIC_BYTE_MIME_FAMILIES[mimeType];
+    if (allowedFamily && !allowedFamily.includes(detected.mime)) {
+      throw unsupportedFileTypeError(
+        `${extension} (content does not match declared type)`,
+      );
+    }
+  }
+
   const preprocessed = preprocessDocument(form.fileBuffer, mimeType);
 
   return {
@@ -210,7 +255,7 @@ export async function handleEstimate(
     );
     fileBuffer = form.fileBuffer;
 
-    const { mimeType, preprocessed, fileSizeBytes } = validateAndPreprocessFile(form);
+    const { mimeType, preprocessed, fileSizeBytes } = await validateAndPreprocessFile(form);
     const { text } = await parseDocument(preprocessed, mimeType, request.log);
 
     const inputTokens = countTokens(text);
@@ -282,7 +327,7 @@ export async function handleExtraction(
     );
     fileBuffer = form.fileBuffer;
 
-    const { mimeType, preprocessed } = validateAndPreprocessFile(form);
+    const { mimeType, preprocessed } = await validateAndPreprocessFile(form);
 
     const customSchema = parseCustomSchema(form.schemaRaw);
     const documentType = parseDocumentType(form.documentTypeRaw);

@@ -8,8 +8,8 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY package.json ./
-RUN rm -f package-lock.json && npm install --force
+COPY package.json package-lock.json ./
+RUN npm ci
 
 COPY tsconfig.json ./
 COPY src ./src
@@ -25,9 +25,10 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY package.json ./
-RUN rm -f package-lock.json && npm install --omit=dev --force
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
+COPY imagemagick-policy.xml /etc/ImageMagick-6/policy.xml
 COPY --from=builder /app/dist ./dist
 COPY public ./public
 

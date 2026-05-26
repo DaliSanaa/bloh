@@ -1,3 +1,5 @@
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
 import multipart from '@fastify/multipart';
 import cookie from '@fastify/cookie';
 import formbody from '@fastify/formbody';
@@ -26,7 +28,28 @@ export async function buildServer(): Promise<ReturnType<typeof Fastify>> {
     logger: {
       level: config.logLevel,
     },
+    trustProxy: config.trustProxy,
   });
+
+  await app.register(helmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:'],
+        connectSrc: ["'self'", 'https://api.clerk.dev', 'https://*.clerk.accounts.dev'],
+      },
+    },
+  });
+
+  if (config.corsOrigin.length > 0) {
+    await app.register(cors, {
+      origin: config.corsOrigin,
+      methods: ['GET', 'POST'],
+      credentials: true,
+    });
+  }
 
   await app.register(cookie, { secret: config.sessionSecret });
   await app.register(formbody);
