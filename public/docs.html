@@ -25,74 +25,73 @@
     </div>
   </header>
 
-  <main class="docs-body">
-    <section class="hero" aria-labelledby="docs-hero-title">
-      <div class="container">
-        <span class="section-label">Reference</span>
-        <h1 id="docs-hero-title">Documentation</h1>
-        <p>Everything you need to integrate Bloh into your application.</p>
-      </div>
-    </section>
-
-    <nav aria-label="Documentation sections">
-      <div class="container">
-        <ul class="docs-nav">
-          <li><a href="#quickstart">Quickstart</a></li>
-          <li><a href="#authentication">Authentication</a></li>
-          <li><a href="#extract">POST /extract</a></li>
-          <li><a href="#estimate">POST /estimate</a></li>
-          <li><a href="#custom-schemas">Custom schemas</a></li>
-          <li><a href="#error-codes">Error codes</a></li>
-          <li><a href="#rate-limits">Rate limits</a></li>
+  <div class="docs-layout">
+    <aside class="docs-sidebar">
+      <nav aria-label="Documentation sections">
+        <p class="sidebar-heading">Documentation</p>
+        <ul class="sidebar-nav">
+          <li><a href="#quickstart" class="sidebar-link active">Quickstart</a></li>
+          <li><a href="#authentication" class="sidebar-link">Authentication</a></li>
+          <li class="sidebar-group-label">Endpoints</li>
+          <li><a href="#extract" class="sidebar-link">POST /extract</a></li>
+          <li><a href="#estimate" class="sidebar-link">POST /estimate</a></li>
+          <li class="sidebar-group-label">Advanced</li>
+          <li><a href="#custom-schemas" class="sidebar-link">Custom schemas</a></li>
+          <li class="sidebar-group-label">Reference</li>
+          <li><a href="#error-codes" class="sidebar-link">Error codes</a></li>
+          <li><a href="#rate-limits" class="sidebar-link">Rate limits</a></li>
+          <li><a href="#document-types" class="sidebar-link">Document types</a></li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </aside>
 
-    <!-- Quickstart -->
-    <section id="quickstart" aria-labelledby="quickstart-title">
-      <div class="container">
-        <span class="section-label">Getting started</span>
-        <h2 id="quickstart-title">Quickstart</h2>
-        <p>Extract structured data from a document in five steps.</p>
+    <main class="docs-main">
 
-        <div class="steps">
-          <article class="step">
-            <p class="step-number">Step 1</p>
-            <h3>Create an account</h3>
-            <p>Sign up at <a href="/signup">/signup</a> with Google, GitHub, Microsoft, Apple, or email. Your account is created instantly.</p>
-          </article>
-          <article class="step">
-            <p class="step-number">Step 2</p>
-            <h3>Get your API key</h3>
-            <p>Open the <a href="/dashboard">Dashboard</a> and click <strong>Generate new key</strong>. Copy the key immediately &mdash; it is shown only once. Your key starts with <code>bloh_</code>.</p>
-          </article>
-          <article class="step">
-            <p class="step-number">Step 3</p>
-            <h3>Send your first request</h3>
-            <p>Replace <code>bloh_your_api_key</code> with your real key and <code>invoice.pdf</code> with a path to your document:</p>
-          </article>
-        </div>
+      <!-- Quickstart -->
+      <section id="quickstart" aria-labelledby="quickstart-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Getting started</span>
+          <h2 id="quickstart-title">Quickstart</h2>
+          <p class="docs-lead">Extract structured data from a document in five steps.</p>
 
-        <div class="tabs">
-          <input type="radio" name="code-tab" id="tab-curl" class="tab-input" checked>
-          <input type="radio" name="code-tab" id="tab-python" class="tab-input">
-          <input type="radio" name="code-tab" id="tab-node" class="tab-input">
-
-          <div class="tab-labels">
-            <label for="tab-curl" class="tab-label">cURL</label>
-            <label for="tab-python" class="tab-label">Python</label>
-            <label for="tab-node" class="tab-label">Node.js</label>
+          <div class="steps">
+            <article class="step">
+              <p class="step-number">Step 1</p>
+              <h3>Create an account</h3>
+              <p>Sign up at <a href="/signup">/signup</a> with Google, GitHub, Microsoft, Apple, or email. Your account is created instantly.</p>
+            </article>
+            <article class="step">
+              <p class="step-number">Step 2</p>
+              <h3>Get your API key</h3>
+              <p>Open the <a href="/dashboard">Dashboard</a> and click <strong>Generate new key</strong>. Copy the key immediately &mdash; it is shown only once. Your key starts with <code>bloh_</code>.</p>
+            </article>
+            <article class="step">
+              <p class="step-number">Step 3</p>
+              <h3>Send your first request</h3>
+              <p>Replace <code>bloh_your_api_key</code> with your real key and <code>invoice.pdf</code> with a path to your document:</p>
+            </article>
           </div>
 
-          <div class="tab-panels">
-            <div id="panel-curl" class="tab-panel">
-              <pre><code>curl -X POST https://api.bloh.dev/extract \
+          <div class="tabs">
+            <input type="radio" name="code-tab" id="tab-curl" class="tab-input" checked>
+            <input type="radio" name="code-tab" id="tab-python" class="tab-input">
+            <input type="radio" name="code-tab" id="tab-node" class="tab-input">
+
+            <div class="tab-labels">
+              <label for="tab-curl" class="tab-label">cURL</label>
+              <label for="tab-python" class="tab-label">Python</label>
+              <label for="tab-node" class="tab-label">Node.js</label>
+            </div>
+
+            <div class="tab-panels">
+              <div id="panel-curl" class="tab-panel">
+                <pre><code>curl -X POST https://api.bloh.dev/extract \
   -H "x-api-key: bloh_your_api_key" \
   -F "file=@invoice.pdf" \
   -F "document_type=invoice"</code></pre>
-            </div>
-            <div id="panel-python" class="tab-panel">
-              <pre><code># pip install requests
+              </div>
+              <div id="panel-python" class="tab-panel">
+                <pre><code># pip install requests
 import requests
 
 with open("invoice.pdf", "rb") as f:
@@ -104,9 +103,9 @@ with open("invoice.pdf", "rb") as f:
     )
 
 print(response.json())</code></pre>
-            </div>
-            <div id="panel-node" class="tab-panel">
-              <pre><code>import fs from "node:fs";
+              </div>
+              <div id="panel-node" class="tab-panel">
+                <pre><code>import fs from "node:fs";
 
 const form = new FormData();
 form.append("file", new Blob([fs.readFileSync("invoice.pdf")]));
@@ -119,17 +118,17 @@ const res = await fetch("https://api.bloh.dev/extract", {
 });
 
 console.log(await res.json());</code></pre>
+              </div>
             </div>
           </div>
-        </div>
 
-        <article class="step">
-          <p class="step-number">Step 4</p>
-          <h3>Parse the response</h3>
-          <p>A successful extraction returns JSON with the extracted fields, document type, and confidence level:</p>
-        </article>
+          <article class="step">
+            <p class="step-number">Step 4</p>
+            <h3>Parse the response</h3>
+            <p>A successful extraction returns JSON with the extracted fields, document type, and confidence level:</p>
+          </article>
 
-        <pre class="code-snippet">{
+          <pre class="code-snippet">{
   "success": true,
   "document_type": "invoice",
   "data": {
@@ -146,80 +145,86 @@ console.log(await res.json());</code></pre>
   "processing_time_ms": 1340
 }</pre>
 
-        <article class="step">
-          <p class="step-number">Step 5</p>
-          <h3>Estimate before extracting (optional)</h3>
-          <p>Use <a href="#estimate">POST /estimate</a> to check how many credits a document will cost before committing to extraction.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Authentication -->
-    <section id="authentication" aria-labelledby="auth-title">
-      <div class="container">
-        <span class="section-label">Security</span>
-        <h2 id="auth-title">Authentication</h2>
-        <p>All API requests require an API key passed in the <code>x-api-key</code> header. Generate keys from the <a href="/dashboard">Dashboard</a>.</p>
-
-        <div class="docs-endpoint">
-          <p><strong>Header:</strong> <code>x-api-key: bloh_your_api_key</code></p>
+          <article class="step">
+            <p class="step-number">Step 5</p>
+            <h3>Estimate before extracting (optional)</h3>
+            <p>Use <a href="#estimate">POST /estimate</a> to check how many credits a document will cost before committing to extraction.</p>
+          </article>
         </div>
+      </section>
 
-        <p>API keys start with <code>bloh_</code> followed by a random hex string. Each account can have up to 5 active keys. You can revoke a key at any time from the Dashboard &mdash; revoked keys are rejected immediately.</p>
-        <p>The <strong>playground</strong> endpoints (<code>/playground/extract</code> and <code>/playground/estimate</code>) do not require an API key. They are rate limited to 3 extractions per day per IP address.</p>
-      </div>
-    </section>
+      <!-- Authentication -->
+      <section id="authentication" aria-labelledby="auth-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Security</span>
+          <h2 id="auth-title">Authentication</h2>
+          <p class="docs-lead">All API requests require an API key passed in the <code>x-api-key</code> header. Generate keys from the <a href="/dashboard">Dashboard</a>.</p>
 
-    <!-- POST /extract -->
-    <section id="extract" aria-labelledby="extract-title">
-      <div class="container">
-        <span class="section-label">Endpoints</span>
-        <h2 id="extract-title">POST /extract</h2>
-        <p>Extracts structured data from a document. Send the file as multipart form data.</p>
+          <div class="endpoint-card">
+            <div class="endpoint-chips">
+              <span class="chip chip-muted">Header</span>
+              <code class="chip-value">x-api-key: bloh_your_api_key</code>
+            </div>
+          </div>
 
-        <div class="docs-endpoint">
-          <p><strong>URL:</strong> <code>https://api.bloh.dev/extract</code></p>
-          <p><strong>Method:</strong> <code>POST</code></p>
-          <p><strong>Content-Type:</strong> <code>multipart/form-data</code></p>
-          <p><strong>Authentication:</strong> <code>x-api-key</code> header (required)</p>
+          <p>API keys start with <code>bloh_</code> followed by a random hex string. Each account can have up to 5 active keys. You can revoke a key at any time from the Dashboard &mdash; revoked keys are rejected immediately.</p>
+          <p>The <strong>playground</strong> endpoints (<code>/playground/extract</code> and <code>/playground/estimate</code>) do not require an API key. They are rate limited to 3 extractions per day per IP address.</p>
         </div>
+      </section>
 
-        <h3>Request body</h3>
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Field</th>
-                <th scope="col">Type</th>
-                <th scope="col">Required</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>file</code></td>
-                <td>File</td>
-                <td>Yes</td>
-                <td>Document to extract. PDF, JPG, JPEG, PNG, WEBP, TIFF, DOCX, XLSX, or PPTX. Max 20 MB.</td>
-              </tr>
-              <tr>
-                <td><code>document_type</code></td>
-                <td>String</td>
-                <td>No</td>
-                <td><code>invoice</code>, <code>receipt</code>, <code>contract</code>, <code>id_document</code>, <code>bank_statement</code>, or <code>auto</code> (default).</td>
-              </tr>
-              <tr>
-                <td><code>schema</code></td>
-                <td>String</td>
-                <td>No</td>
-                <td>JSON string defining custom fields. See <a href="#custom-schemas">Custom schemas</a>.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- POST /extract -->
+      <section id="extract" aria-labelledby="extract-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Endpoints</span>
+          <h2 id="extract-title" class="endpoint-title"><span class="method-badge">POST</span> /extract</h2>
 
-        <h3>Success response (200)</h3>
-        <pre class="code-snippet">{
+          <div class="endpoint-card">
+            <p class="endpoint-desc">Extracts structured data from a document. Send the file as multipart form data.</p>
+            <div class="endpoint-chips">
+              <span class="chip">multipart/form-data</span>
+              <span class="chip">x-api-key</span>
+            </div>
+            <div class="endpoint-url">
+              <code>https://api.bloh.dev/extract</code>
+            </div>
+          </div>
+
+          <h3>Request body</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Required</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>file</code></td>
+                  <td>File</td>
+                  <td>Yes</td>
+                  <td>Document to extract. PDF, JPG, JPEG, PNG, WEBP, TIFF, DOCX, XLSX, or PPTX. Max 20 MB.</td>
+                </tr>
+                <tr>
+                  <td><code>document_type</code></td>
+                  <td>String</td>
+                  <td>No</td>
+                  <td><code>invoice</code>, <code>receipt</code>, <code>contract</code>, <code>id_document</code>, <code>bank_statement</code>, or <code>auto</code> (default).</td>
+                </tr>
+                <tr>
+                  <td><code>schema</code></td>
+                  <td>String</td>
+                  <td>No</td>
+                  <td>JSON string defining custom fields. See <a href="#custom-schemas">Custom schemas</a>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Success response <span class="status-badge">200</span></h3>
+          <pre class="code-snippet">{
   "success": true,
   "document_type": "invoice",
   "data": {
@@ -248,82 +253,85 @@ console.log(await res.json());</code></pre>
   "processing_time_ms": 1340
 }</pre>
 
-        <h3>Response fields</h3>
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Field</th>
-                <th scope="col">Type</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>success</code></td>
-                <td>Boolean</td>
-                <td>Always <code>true</code> on success.</td>
-              </tr>
-              <tr>
-                <td><code>document_type</code></td>
-                <td>String</td>
-                <td>Detected or specified document type.</td>
-              </tr>
-              <tr>
-                <td><code>data</code></td>
-                <td>Object</td>
-                <td>Extracted fields. Structure varies by document type. Missing fields are <code>null</code>.</td>
-              </tr>
-              <tr>
-                <td><code>confidence</code></td>
-                <td>String</td>
-                <td><code>high</code>, <code>medium</code>, or <code>low</code>. Reflects text quality and field coverage.</td>
-              </tr>
-              <tr>
-                <td><code>credits_used</code></td>
-                <td>Number</td>
-                <td>Credits consumed by this extraction.</td>
-              </tr>
-              <tr>
-                <td><code>processing_time_ms</code></td>
-                <td>Number</td>
-                <td>Server-side processing time in milliseconds.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <h3>Response fields</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>success</code></td>
+                  <td>Boolean</td>
+                  <td>Always <code>true</code> on success.</td>
+                </tr>
+                <tr>
+                  <td><code>document_type</code></td>
+                  <td>String</td>
+                  <td>Detected or specified document type.</td>
+                </tr>
+                <tr>
+                  <td><code>data</code></td>
+                  <td>Object</td>
+                  <td>Extracted fields. Structure varies by document type. Missing fields are <code>null</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>confidence</code></td>
+                  <td>String</td>
+                  <td><code>high</code>, <code>medium</code>, or <code>low</code>. Reflects text quality and field coverage.</td>
+                </tr>
+                <tr>
+                  <td><code>credits_used</code></td>
+                  <td>Number</td>
+                  <td>Credits consumed by this extraction.</td>
+                </tr>
+                <tr>
+                  <td><code>processing_time_ms</code></td>
+                  <td>Number</td>
+                  <td>Server-side processing time in milliseconds.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <h3>Error response</h3>
-        <pre class="code-snippet">{
+          <h3>Error response</h3>
+          <pre class="code-snippet">{
   "success": false,
   "error": {
     "code": "UNSUPPORTED_FILE_TYPE",
     "message": "File type .zip is not supported. Supported types: pdf, jpg, jpeg, png, webp, tiff, docx, xlsx, pptx"
   }
 }</pre>
-        <p>See <a href="#error-codes">Error codes</a> for the full list.</p>
-      </div>
-    </section>
-
-    <!-- POST /estimate -->
-    <section id="estimate" aria-labelledby="estimate-title">
-      <div class="container">
-        <span class="section-label">Endpoints</span>
-        <h2 id="estimate-title">POST /estimate</h2>
-        <p>Estimates how many credits an extraction will cost without running the LLM. Useful for cost control and pre-validation.</p>
-
-        <div class="docs-endpoint">
-          <p><strong>URL:</strong> <code>https://api.bloh.dev/estimate</code></p>
-          <p><strong>Method:</strong> <code>POST</code></p>
-          <p><strong>Content-Type:</strong> <code>multipart/form-data</code></p>
-          <p><strong>Authentication:</strong> <code>x-api-key</code> header (required)</p>
+          <p>See <a href="#error-codes">Error codes</a> for the full list.</p>
         </div>
+      </section>
 
-        <h3>Request body</h3>
-        <p>Same as <a href="#extract">POST /extract</a>: send a <code>file</code> field, with optional <code>document_type</code>.</p>
+      <!-- POST /estimate -->
+      <section id="estimate" aria-labelledby="estimate-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Endpoints</span>
+          <h2 id="estimate-title" class="endpoint-title"><span class="method-badge">POST</span> /estimate</h2>
 
-        <h3>Success response (200)</h3>
-        <pre class="code-snippet">{
+          <div class="endpoint-card">
+            <p class="endpoint-desc">Estimates how many credits an extraction will cost without running the LLM. Useful for cost control and pre-validation.</p>
+            <div class="endpoint-chips">
+              <span class="chip">multipart/form-data</span>
+              <span class="chip">x-api-key</span>
+            </div>
+            <div class="endpoint-url">
+              <code>https://api.bloh.dev/estimate</code>
+            </div>
+          </div>
+
+          <h3>Request body</h3>
+          <p>Same as <a href="#extract">POST /extract</a>: send a <code>file</code> field, with optional <code>document_type</code>.</p>
+
+          <h3>Success response <span class="status-badge">200</span></h3>
+          <pre class="code-snippet">{
   "success": true,
   "input_tokens": 1450,
   "estimated_credits": 3,
@@ -331,81 +339,81 @@ console.log(await res.json());</code></pre>
   "mime_type": "application/pdf"
 }</pre>
 
-        <h3>Response fields</h3>
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Field</th>
-                <th scope="col">Type</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>success</code></td>
-                <td>Boolean</td>
-                <td>Always <code>true</code> on success.</td>
-              </tr>
-              <tr>
-                <td><code>input_tokens</code></td>
-                <td>Number</td>
-                <td>Approximate token count of the parsed document text.</td>
-              </tr>
-              <tr>
-                <td><code>estimated_credits</code></td>
-                <td>Number</td>
-                <td>Estimated credits the extraction would consume.</td>
-              </tr>
-              <tr>
-                <td><code>file_size_bytes</code></td>
-                <td>Number</td>
-                <td>Size of the uploaded file in bytes.</td>
-              </tr>
-              <tr>
-                <td><code>mime_type</code></td>
-                <td>String</td>
-                <td>Detected MIME type of the file.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <h3>Response fields</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>success</code></td>
+                  <td>Boolean</td>
+                  <td>Always <code>true</code> on success.</td>
+                </tr>
+                <tr>
+                  <td><code>input_tokens</code></td>
+                  <td>Number</td>
+                  <td>Approximate token count of the parsed document text.</td>
+                </tr>
+                <tr>
+                  <td><code>estimated_credits</code></td>
+                  <td>Number</td>
+                  <td>Estimated credits the extraction would consume.</td>
+                </tr>
+                <tr>
+                  <td><code>file_size_bytes</code></td>
+                  <td>Number</td>
+                  <td>Size of the uploaded file in bytes.</td>
+                </tr>
+                <tr>
+                  <td><code>mime_type</code></td>
+                  <td>String</td>
+                  <td>Detected MIME type of the file.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <h3>Example</h3>
-        <pre class="code-snippet">curl -X POST https://api.bloh.dev/estimate \
+          <h3>Example</h3>
+          <pre class="code-snippet">curl -X POST https://api.bloh.dev/estimate \
   -H "x-api-key: bloh_your_api_key" \
   -F "file=@contract.pdf"</pre>
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <!-- Custom schemas -->
-    <section id="custom-schemas" aria-labelledby="schemas-title">
-      <div class="container">
-        <span class="section-label">Advanced</span>
-        <h2 id="schemas-title">Custom schemas</h2>
-        <p>By default, Bloh extracts a standard set of fields for each document type. To extract only specific fields, pass a JSON schema in the <code>schema</code> form field.</p>
+      <!-- Custom schemas -->
+      <section id="custom-schemas" aria-labelledby="schemas-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Advanced</span>
+          <h2 id="schemas-title">Custom schemas</h2>
+          <p class="docs-lead">By default, Bloh extracts a standard set of fields for each document type. To extract only specific fields, pass a JSON schema in the <code>schema</code> form field.</p>
 
-        <h3>Schema format</h3>
-        <p>The schema must be a JSON object with a <code>fields</code> array of strings. Each string is a field name to extract.</p>
-        <pre class="code-snippet">{
+          <h3>Schema format</h3>
+          <p>The schema must be a JSON object with a <code>fields</code> array of strings. Each string is a field name to extract.</p>
+          <pre class="code-snippet">{
   "fields": ["vendor_name", "total_amount", "currency", "due_date"]
 }</pre>
 
-        <h3>Constraints</h3>
-        <ul>
-          <li>Maximum 50 fields per schema.</li>
-          <li>Field names must be 64 characters or fewer.</li>
-          <li>Field names may only contain letters, numbers, underscores, hyphens, and spaces.</li>
-        </ul>
+          <h3>Constraints</h3>
+          <ul>
+            <li>Maximum 50 fields per schema.</li>
+            <li>Field names must be 64 characters or fewer.</li>
+            <li>Field names may only contain letters, numbers, underscores, hyphens, and spaces.</li>
+          </ul>
 
-        <h3>Example request</h3>
-        <pre class="code-snippet">curl -X POST https://api.bloh.dev/extract \
+          <h3>Example request</h3>
+          <pre class="code-snippet">curl -X POST https://api.bloh.dev/extract \
   -H "x-api-key: bloh_your_api_key" \
   -F "file=@invoice.pdf" \
   -F 'schema={"fields":["vendor_name","total_amount","currency"]}'</pre>
 
-        <h3>Example response</h3>
-        <pre class="code-snippet">{
+          <h3>Example response</h3>
+          <pre class="code-snippet">{
   "success": true,
   "document_type": "invoice",
   "data": {
@@ -418,17 +426,17 @@ console.log(await res.json());</code></pre>
   "processing_time_ms": 980
 }</pre>
 
-        <p>When a custom schema is provided, the <code>document_type</code> parameter is ignored &mdash; the LLM extracts only the fields you specify.</p>
-      </div>
-    </section>
+          <p>When a custom schema is provided, the <code>document_type</code> parameter is ignored &mdash; the LLM extracts only the fields you specify.</p>
+        </div>
+      </section>
 
-    <!-- Error codes -->
-    <section id="error-codes" aria-labelledby="errors-title">
-      <div class="container">
-        <span class="section-label">Reference</span>
-        <h2 id="errors-title">Error codes</h2>
-        <p>All error responses share the same shape:</p>
-        <pre class="code-snippet">{
+      <!-- Error codes -->
+      <section id="error-codes" aria-labelledby="errors-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Reference</span>
+          <h2 id="errors-title">Error codes</h2>
+          <p class="docs-lead">All error responses share the same shape:</p>
+          <pre class="code-snippet">{
   "success": false,
   "error": {
     "code": "ERROR_CODE",
@@ -436,180 +444,181 @@ console.log(await res.json());</code></pre>
   }
 }</pre>
 
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Code</th>
-                <th scope="col">HTTP</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>MISSING_FILE</code></td>
-                <td>400</td>
-                <td>No <code>file</code> field in the multipart request body.</td>
-              </tr>
-              <tr>
-                <td><code>UNSUPPORTED_FILE_TYPE</code></td>
-                <td>400</td>
-                <td>File extension is not one of the supported types.</td>
-              </tr>
-              <tr>
-                <td><code>INVALID_SCHEMA</code></td>
-                <td>400</td>
-                <td>The <code>schema</code> field is not valid JSON or does not match the expected format.</td>
-              </tr>
-              <tr>
-                <td><code>UNAUTHORIZED</code></td>
-                <td>401</td>
-                <td>Missing, invalid, or revoked API key.</td>
-              </tr>
-              <tr>
-                <td><code>FILE_TOO_LARGE</code></td>
-                <td>413</td>
-                <td>File exceeds the 20 MB size limit.</td>
-              </tr>
-              <tr>
-                <td><code>PARSING_FAILED</code></td>
-                <td>422</td>
-                <td>The document could not be parsed. It may be corrupted, empty, or password-protected.</td>
-              </tr>
-              <tr>
-                <td><code>EXTRACTION_FAILED</code></td>
-                <td>422</td>
-                <td>The extraction engine could not produce valid structured data from this document.</td>
-              </tr>
-              <tr>
-                <td><code>RATE_LIMITED</code></td>
-                <td>429</td>
-                <td>Too many requests. See <a href="#rate-limits">Rate limits</a>.</td>
-              </tr>
-              <tr>
-                <td><code>CREDIT_LIMIT_REACHED</code></td>
-                <td>429</td>
-                <td>Monthly credit allowance exhausted. Upgrade your plan or wait for the next billing cycle.</td>
-              </tr>
-              <tr>
-                <td><code>INTERNAL_ERROR</code></td>
-                <td>500</td>
-                <td>Unexpected server error. If this persists, contact <a href="mailto:hello@bloh.dev">hello@bloh.dev</a>.</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">HTTP</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>MISSING_FILE</code></td>
+                  <td><span class="status-badge status-400">400</span></td>
+                  <td>No <code>file</code> field in the multipart request body.</td>
+                </tr>
+                <tr>
+                  <td><code>UNSUPPORTED_FILE_TYPE</code></td>
+                  <td><span class="status-badge status-400">400</span></td>
+                  <td>File extension is not one of the supported types.</td>
+                </tr>
+                <tr>
+                  <td><code>INVALID_SCHEMA</code></td>
+                  <td><span class="status-badge status-400">400</span></td>
+                  <td>The <code>schema</code> field is not valid JSON or does not match the expected format.</td>
+                </tr>
+                <tr>
+                  <td><code>UNAUTHORIZED</code></td>
+                  <td><span class="status-badge status-400">401</span></td>
+                  <td>Missing, invalid, or revoked API key.</td>
+                </tr>
+                <tr>
+                  <td><code>FILE_TOO_LARGE</code></td>
+                  <td><span class="status-badge status-400">413</span></td>
+                  <td>File exceeds the 20 MB size limit.</td>
+                </tr>
+                <tr>
+                  <td><code>PARSING_FAILED</code></td>
+                  <td><span class="status-badge status-400">422</span></td>
+                  <td>The document could not be parsed. It may be corrupted, empty, or password-protected.</td>
+                </tr>
+                <tr>
+                  <td><code>EXTRACTION_FAILED</code></td>
+                  <td><span class="status-badge status-400">422</span></td>
+                  <td>The extraction engine could not produce valid structured data from this document.</td>
+                </tr>
+                <tr>
+                  <td><code>RATE_LIMITED</code></td>
+                  <td><span class="status-badge status-400">429</span></td>
+                  <td>Too many requests. See <a href="#rate-limits">Rate limits</a>.</td>
+                </tr>
+                <tr>
+                  <td><code>CREDIT_LIMIT_REACHED</code></td>
+                  <td><span class="status-badge status-400">429</span></td>
+                  <td>Monthly credit allowance exhausted. Upgrade your plan or wait for the next billing cycle.</td>
+                </tr>
+                <tr>
+                  <td><code>INTERNAL_ERROR</code></td>
+                  <td><span class="status-badge status-500">500</span></td>
+                  <td>Unexpected server error. If this persists, contact <a href="mailto:hello@bloh.dev">hello@bloh.dev</a>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Rate limits -->
-    <section id="rate-limits" aria-labelledby="ratelimits-title">
-      <div class="container">
-        <span class="section-label">Reference</span>
-        <h2 id="ratelimits-title">Rate limits</h2>
+      <!-- Rate limits -->
+      <section id="rate-limits" aria-labelledby="ratelimits-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Reference</span>
+          <h2 id="ratelimits-title">Rate limits</h2>
 
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Context</th>
-                <th scope="col">Limit</th>
-                <th scope="col">Window</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>API (per key)</td>
-                <td>60 requests</td>
-                <td>1 minute</td>
-              </tr>
-              <tr>
-                <td>Playground (per IP)</td>
-                <td>3 extractions</td>
-                <td>24 hours</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Context</th>
+                  <th scope="col">Limit</th>
+                  <th scope="col">Window</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>API (per key)</td>
+                  <td>60 requests</td>
+                  <td>1 minute</td>
+                </tr>
+                <tr>
+                  <td>Playground (per IP)</td>
+                  <td>3 extractions</td>
+                  <td>24 hours</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>When you exceed a rate limit, the API returns a <code>429</code> status with the <code>RATE_LIMITED</code> error code. Wait for the window to reset before retrying.</p>
+
+          <h3>Monthly credit limits</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Plan</th>
+                  <th scope="col">Credits/month</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Free</td>
+                  <td>100</td>
+                </tr>
+                <tr>
+                  <td>Pro</td>
+                  <td>2,000</td>
+                </tr>
+                <tr>
+                  <td>Max</td>
+                  <td>20,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Credit usage is visible on the <a href="/dashboard">Dashboard</a>. Use <a href="#estimate">POST /estimate</a> to check costs before extracting.</p>
         </div>
+      </section>
 
-        <p>When you exceed a rate limit, the API returns a <code>429</code> status with the <code>RATE_LIMITED</code> error code. Wait for the window to reset before retrying.</p>
+      <!-- Supported document types -->
+      <section id="document-types" aria-labelledby="doctypes-title">
+        <div class="docs-section-inner">
+          <span class="section-label">Reference</span>
+          <h2 id="doctypes-title">Supported document types</h2>
+          <p class="docs-lead">Pass a <code>document_type</code> to optimize extraction, or use <code>auto</code> (default) to let Bloh detect the type.</p>
 
-        <h3>Monthly credit limits</h3>
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Plan</th>
-                <th scope="col">Credits/month</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Free</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>Pro</td>
-                <td>2,000</td>
-              </tr>
-              <tr>
-                <td>Max</td>
-                <td>20,000</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th scope="col">Type</th>
+                  <th scope="col">Key fields extracted</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>invoice</code></td>
+                  <td>vendor_name, invoice_number, date, due_date, line_items, net_amount, vat_rate, vat_amount, gross_amount, currency, iban, bic</td>
+                </tr>
+                <tr>
+                  <td><code>receipt</code></td>
+                  <td>merchant_name, receipt_number, date, time, line_items, subtotal, tax_rate, tax_amount, total_amount, currency, payment_method</td>
+                </tr>
+                <tr>
+                  <td><code>contract</code></td>
+                  <td>parties, contract_title, contract_number, effective_date, expiration_date, governing_law, jurisdiction, key_terms, signatures, total_value</td>
+                </tr>
+                <tr>
+                  <td><code>id_document</code></td>
+                  <td>document_type, document_number, full_name, date_of_birth, nationality, expiry_date, issue_date, issuing_authority, address</td>
+                </tr>
+                <tr>
+                  <td><code>bank_statement</code></td>
+                  <td>bank_name, account_holder, iban, bic, statement_period_start, statement_period_end, opening_balance, closing_balance, transactions</td>
+                </tr>
+                <tr>
+                  <td><code>auto</code></td>
+                  <td>Bloh detects the type and extracts the corresponding fields automatically.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>All dates are normalized to ISO 8601 (<code>YYYY-MM-DD</code>). All monetary amounts are returned as numbers without currency symbols. Currency is always a separate ISO 4217 field.</p>
         </div>
-        <p>Credit usage is visible on the <a href="/dashboard">Dashboard</a>. Use <a href="#estimate">POST /estimate</a> to check costs before extracting.</p>
-      </div>
-    </section>
-
-    <!-- Supported document types -->
-    <section id="document-types" aria-labelledby="doctypes-title">
-      <div class="container">
-        <span class="section-label">Reference</span>
-        <h2 id="doctypes-title">Supported document types</h2>
-        <p>Pass a <code>document_type</code> to optimize extraction, or use <code>auto</code> (default) to let Bloh detect the type.</p>
-
-        <div class="pricing-table-wrapper">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th scope="col">Type</th>
-                <th scope="col">Key fields extracted</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>invoice</code></td>
-                <td>vendor_name, invoice_number, date, due_date, line_items, net_amount, vat_rate, vat_amount, gross_amount, currency, iban, bic</td>
-              </tr>
-              <tr>
-                <td><code>receipt</code></td>
-                <td>merchant_name, receipt_number, date, time, line_items, subtotal, tax_rate, tax_amount, total_amount, currency, payment_method</td>
-              </tr>
-              <tr>
-                <td><code>contract</code></td>
-                <td>parties, contract_title, contract_number, effective_date, expiration_date, governing_law, jurisdiction, key_terms, signatures, total_value</td>
-              </tr>
-              <tr>
-                <td><code>id_document</code></td>
-                <td>document_type, document_number, full_name, date_of_birth, nationality, expiry_date, issue_date, issuing_authority, address</td>
-              </tr>
-              <tr>
-                <td><code>bank_statement</code></td>
-                <td>bank_name, account_holder, iban, bic, statement_period_start, statement_period_end, opening_balance, closing_balance, transactions</td>
-              </tr>
-              <tr>
-                <td><code>auto</code></td>
-                <td>Bloh detects the type and extracts the corresponding fields automatically.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p>All dates are normalized to ISO 8601 (<code>YYYY-MM-DD</code>). All monetary amounts are returned as numbers without currency symbols. Currency is always a separate ISO 4217 field.</p>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -624,5 +633,30 @@ console.log(await res.json());</code></pre>
   </footer>
 
   <script src="/js/auth-nav.js" defer></script>
+  <script>
+    (function () {
+      var links = document.querySelectorAll('.sidebar-link');
+      var sections = [];
+
+      links.forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+      });
+
+      function onScroll() {
+        var scrollY = window.scrollY + 120;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].el.offsetTop <= scrollY) current = sections[i];
+        }
+        links.forEach(function (l) { l.classList.remove('active'); });
+        if (current) current.link.classList.add('active');
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
 </body>
 </html>
