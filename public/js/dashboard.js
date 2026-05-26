@@ -154,25 +154,37 @@ async function openBillingPortal() {
 }
 
 /**
- * Loads the Clerk browser SDK.
- * @returns {Promise<void>}
+ * Expires a cookie by name.
+ * @param {string} name - Cookie name
+ * @param {string | undefined} domain - Optional cookie domain
  */
-function loadClerkScript() {
-  if (window.Clerk) {
-    return Promise.resolve();
+function expireCookie(name, domain) {
+  let cookie = `${name}=; Max-Age=0; path=/`;
+  if (domain) {
+    cookie += `; domain=${domain}`;
   }
-
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Failed to load Clerk'));
-    document.head.appendChild(script);
-  });
+  document.cookie = cookie;
 }
 
+/**
+ * Clears Clerk session cookies client-side.
+ */
+function clearClerkCookies() {
+  const names = ['__client_uat', '__session', '__clerk_db_jwt'];
+  for (const name of names) {
+    expireCookie(name);
+    expireCookie(name, 'bloh.dev');
+  }
+}
+
+/**
+ * Signs out from Bloh and clears Clerk cookies.
+ */
+async function signOut() {
+  await fetch('/auth/logout', { method: 'POST' });
+  clearClerkCookies();
+  window.location.href = '/login';
+}
 /**
  * Shows the one-time API key after Clerk signup.
  */
@@ -192,23 +204,6 @@ async function showWelcomeKeyIfNeeded() {
   document.getElementById('revealed-key').textContent = body.apiKey;
   reveal.classList.remove('hidden');
   window.history.replaceState({}, '', '/dashboard');
-}
-
-/**
- * Signs out from Bloh and Clerk.
- */
-async function signOut() {
-  await fetch('/auth/logout', { method: 'POST' });
-
-  try {
-    const configRes = await fetch('/auth/config');
-    const config = await configRes.json();
-    await loadClerkScript();
-    await window.Clerk.load({ publishableKey: config.publishableKey });
-    await window.Clerk.signOut({ redirectUrl: `${window.location.origin}/login` });
-  } catch {
-    window.location.href = '/login';
-  }
 }
 
 document.getElementById('logout-btn').addEventListener('click', () => {
