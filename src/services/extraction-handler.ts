@@ -34,15 +34,22 @@ const MAX_SCHEMA_FIELDS = 50;
 const MAX_FIELD_NAME_LENGTH = 64;
 const FIELD_NAME_PATTERN = /^[a-zA-Z0-9_\s-]+$/;
 
+const OFFICE_XML_DETECTED_TYPES = [
+  'application/zip',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+];
+
 const MAGIC_BYTE_MIME_FAMILIES: Record<string, string[]> = {
   'application/pdf': ['application/pdf'],
   'image/jpeg': ['image/jpeg'],
   'image/png': ['image/png'],
   'image/webp': ['image/webp'],
   'image/tiff': ['image/tiff'],
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['application/zip'],
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['application/zip'],
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['application/zip'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': OFFICE_XML_DETECTED_TYPES,
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': OFFICE_XML_DETECTED_TYPES,
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': OFFICE_XML_DETECTED_TYPES,
 };
 
 /** Parsed multipart form fields from an extract request. */
