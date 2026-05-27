@@ -97,6 +97,8 @@ function isPublicRoute(url: string, method: string): boolean {
       pathOnly === '/signup' ||
       pathOnly === '/dashboard' ||
       pathOnly === '/docs' ||
+      pathOnly === '/sitemap.xml' ||
+      pathOnly === '/robots.txt' ||
       PUBLIC_PATH_PREFIXES.some((p) => pathOnly.startsWith(p)))
   ) {
     return true;
