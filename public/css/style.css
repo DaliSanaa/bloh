@@ -1,4 +1,4 @@
-/* Buteo — warm Claude-inspired palette with blur ambience */
+/* Bloh — warm Claude-inspired palette with blur ambience */
 
 *,
 *::before,
@@ -563,7 +563,7 @@ section + section {
   overflow-x: auto;
 }
 
-/* Why Buteo */
+/* Why Bloh */
 .columns-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

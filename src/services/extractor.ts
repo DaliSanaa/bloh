@@ -75,6 +75,7 @@ async function callGroqApi(
         messages: [{ role: 'user', content: systemPrompt }],
         temperature: 0.1,
         max_tokens: 4096,
+        reasoning_effort: 'none',
         response_format: { type: 'json_object' },
       }),
       signal: controller.signal,

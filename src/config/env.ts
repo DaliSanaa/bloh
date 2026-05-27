@@ -1,6 +1,6 @@
 import type { AppConfig } from '../types/index.js';
 
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 3001;
 const DEFAULT_MAX_FILE_SIZE_MB = 20;
 const DEFAULT_LOG_LEVEL = 'info';
 const DEFAULT_NODE_ENV = 'development';

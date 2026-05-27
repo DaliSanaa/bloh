@@ -12,7 +12,7 @@ import {
 import { BlohError, playgroundRateLimitedError } from '../utils/errors.js';
 import { logRequest } from '../utils/logger.js';
 
-const PLAYGROUND_LIMIT = 3;
+const PLAYGROUND_LIMIT = 50;
 const PLAYGROUND_WINDOW_MS = 86_400_000;
 const CLEANUP_INTERVAL_MS = 60_000;
 
