@@ -205,7 +205,7 @@ console.log(await res.json());</code></pre>
                   <td><code>file</code></td>
                   <td>File</td>
                   <td>Yes</td>
-                  <td>Document to extract. PDF, JPG, JPEG, PNG, WEBP, TIFF, DOCX, XLSX, or PPTX. Max 20 MB.</td>
+                  <td>Document to extract. PDF, JPG, JPEG, PNG, WEBP, TIFF, DOCX, XLSX, PPTX, CSV, or TSV. Max 20 MB.</td>
                 </tr>
                 <tr>
                   <td><code>document_type</code></td>
@@ -303,7 +303,7 @@ console.log(await res.json());</code></pre>
   "success": false,
   "error": {
     "code": "UNSUPPORTED_FILE_TYPE",
-    "message": "File type .zip is not supported. Supported types: pdf, jpg, jpeg, png, webp, tiff, docx, xlsx, pptx"
+    "message": "File type .zip is not supported. Supported types: pdf, jpg, jpeg, png, webp, tiff, docx, xlsx, pptx, csv, tsv"
   }
 }</pre>
           <p>See <a href="#error-codes">Error codes</a> for the full list.</p>

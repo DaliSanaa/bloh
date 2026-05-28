@@ -9,6 +9,8 @@ export const SUPPORTED_EXTENSIONS = new Set([
   'docx',
   'xlsx',
   'pptx',
+  'csv',
+  'tsv',
 ]);
 
 /** MIME types that represent images requiring preprocessing. */
@@ -80,6 +82,8 @@ export function extensionToMimeType(extension: string): string {
     docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    csv: 'text/csv',
+    tsv: 'text/tab-separated-values',
   };
   return mimeMap[ext.toLowerCase()] ?? 'application/octet-stream';
 }

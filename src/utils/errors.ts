@@ -33,7 +33,7 @@ export function missingFileError(): BlohError {
  * @returns BlohError with UNSUPPORTED_FILE_TYPE code
  */
 export function unsupportedFileTypeError(extension: string): BlohError {
-  const supported = 'pdf, jpg, jpeg, png, webp, tiff, docx, xlsx, pptx';
+  const supported = 'pdf, jpg, jpeg, png, webp, tiff, docx, xlsx, pptx, csv, tsv';
   return new BlohError(
     'UNSUPPORTED_FILE_TYPE',
     `File type ${extension} is not supported. Supported types: ${supported}`,

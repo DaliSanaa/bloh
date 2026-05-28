@@ -208,13 +208,15 @@ async function validateAndPreprocessFile(form: ExtractFormData): Promise<{
 
   const mimeType = form.file.mimetype || extensionToMimeType(extension);
 
-  const detected = await fileTypeFromBuffer(form.fileBuffer);
-  if (detected) {
-    const allowedFamily = MAGIC_BYTE_MIME_FAMILIES[mimeType];
-    if (allowedFamily && !allowedFamily.includes(detected.mime)) {
-      throw unsupportedFileTypeError(
-        `${extension} (content does not match declared type)`,
-      );
+  if (!mimeType.startsWith('text/')) {
+    const detected = await fileTypeFromBuffer(form.fileBuffer);
+    if (detected) {
+      const allowedFamily = MAGIC_BYTE_MIME_FAMILIES[mimeType];
+      if (allowedFamily && !allowedFamily.includes(detected.mime)) {
+        throw unsupportedFileTypeError(
+          `${extension} (content does not match declared type)`,
+        );
+      }
     }
   }
 
